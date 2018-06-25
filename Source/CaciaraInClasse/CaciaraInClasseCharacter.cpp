@@ -10,6 +10,7 @@
 #include "Runtime/Engine/Classes/GameFramework/Actor.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/Controller.h"
+#include "Runtime/Engine/Classes/PhysicsEngine/PhysicsHandleComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 
 //////////////////////////////////////////////////////////////////////////
@@ -48,11 +49,19 @@ ACaciaraInClasseCharacter::ACaciaraInClasseCharacter()
 
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
+	
 }
 
 //////////////////////////////////////////////////////////////////////////
 // Input
-
+void::ACaciaraInClasseCharacter::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+	if (PhysicsHandle->GrabbedComponent)
+	{
+		PhysicsHandle->SetTargetLocation(GetActorLocation());
+	}
+}
 void ACaciaraInClasseCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
 {
 	// Set up gameplay key bindings
@@ -75,6 +84,8 @@ void ACaciaraInClasseCharacter::SetupPlayerInputComponent(class UInputComponent*
 
 	// VR headset functionality
 	PlayerInputComponent->BindAction("ResetVR", IE_Pressed, this, &ACaciaraInClasseCharacter::OnResetVR);
+	PhysicsHandle = FindComponentByClass<UPhysicsHandleComponent>();
+
 }
 
 
@@ -136,14 +147,37 @@ void ACaciaraInClasseCharacter::MoveRight(float Value)
 
 	void ACaciaraInClasseCharacter::PickUp()
 {
+		if (!PhysicsHandle) { 
+			 UE_LOG(LogTemp, Warning, TEXT("No PhysicsHandle")) 
+			return; }
+		auto Hit = LookForActorsInRange();
+		auto Actor = Hit.GetActor();
+		auto HitRoot = Hit.GetComponent();
+		if (Actor)
+		{
+			if (HitRoot)
+			{
+				PhysicsHandle->GrabComponent
+				(
+					HitRoot,
+					NAME_None, //
+					Actor->GetActorLocation(),
+					true //Allow rotation
+				);
+				
+				
+				UE_LOG(LogTemp, Warning, TEXT("Actor Attached"))
+					
+			}
+			else { UE_LOG(LogTemp, Warning, TEXT("no  hit root")) }
+		}
+		else { UE_LOG(LogTemp, Warning, TEXT("no actor found")) }
 		
-		auto Actor = GetActorInRange();
-		if (!Actor) { return; }
-		UE_LOG(LogTemp, Warning, TEXT("Pick Up %s"), *Actor->GetName())
+		
 }
 
 
-	AActor* ACaciaraInClasseCharacter::GetActorInRange()
+	FHitResult ACaciaraInClasseCharacter::LookForActorsInRange()
 	{
 		// create tarray for hit results
 		FHitResult Hit;
@@ -153,7 +187,7 @@ void ACaciaraInClasseCharacter::MoveRight(float Value)
 	FVector SweepEnd = GetActorLocation();
 
 	// create a collision sphere
-	FCollisionShape Sphere = FCollisionShape::MakeSphere(500.0f);
+	FCollisionShape Sphere = FCollisionShape::MakeSphere(100.0f);
 	FQuat Quat;
 	FCollisionQueryParams SweepParameters(FName(TEXT("")), false, GetOwner());
 
@@ -171,5 +205,5 @@ void ACaciaraInClasseCharacter::MoveRight(float Value)
 		Sphere,
 		SweepParameters
 	);
-	  return  Hit.GetActor();
+	  return  Hit;
 	}

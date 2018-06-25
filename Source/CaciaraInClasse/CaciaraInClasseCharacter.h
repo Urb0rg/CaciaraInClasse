@@ -6,6 +6,9 @@
 #include "GameFramework/Character.h"
 #include "CaciaraInClasseCharacter.generated.h"
 
+
+class UPhysicsHandleComponent;
+
 UCLASS(config=Game)
 class ACaciaraInClasseCharacter : public ACharacter
 {
@@ -64,11 +67,14 @@ protected:
 	// End of APawn interface
 
 private:
+	virtual void Tick(float DeltaTime) override;
+
 	/** Returns CameraBoom subobject **/
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
 	void PickUp();
-	AActor* GetActorInRange();
+	FHitResult LookForActorsInRange();
+	UPhysicsHandleComponent* PhysicsHandle = nullptr;
 };
 
