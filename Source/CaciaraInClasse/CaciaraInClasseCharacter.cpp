@@ -10,6 +10,8 @@
 #include "Runtime/Engine/Classes/GameFramework/Actor.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/Controller.h"
+#include "Public/AttachMesh.h"
+#include "Runtime/Engine/Classes/GameFramework/Character.h"
 #include "Runtime/Engine/Classes/PhysicsEngine/PhysicsHandleComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 
@@ -59,8 +61,16 @@ void::ACaciaraInClasseCharacter::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 	if (PhysicsHandle->GrabbedComponent)
 	{
-		PhysicsHandle->SetTargetLocation(GetActorLocation());
+		PhysicsHandle->SetTargetLocation(GetAttachLocation());
 	}
+}
+
+FVector ACaciaraInClasseCharacter::GetAttachLocation()
+{
+	if (!Attach) { UE_LOG(LogTemp, Warning, TEXT("No AttachMesh")) return GetActorLocation(); }
+	
+	return Attach->GetComponentLocation();
+
 }
 void ACaciaraInClasseCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
 {
@@ -206,4 +216,10 @@ void ACaciaraInClasseCharacter::MoveRight(float Value)
 		SweepParameters
 	);
 	  return  Hit;
+	}
+
+
+	void ACaciaraInClasseCharacter::SetAttach(UAttachMesh* AttachToSet)
+	{
+		Attach = AttachToSet;
 	}
