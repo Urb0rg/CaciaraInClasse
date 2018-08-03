@@ -7,8 +7,8 @@
 #include "CaciaraInClasseCharacter.generated.h"
 
 
+
 class UPhysicsHandleComponent;
-class UAttachMesh;
 
 UCLASS(config=Game)
 class ACaciaraInClasseCharacter : public ACharacter
@@ -62,9 +62,7 @@ protected:
 	/** Handler for when a touch input stops. */
 	void TouchStopped(ETouchIndex::Type FingerIndex, FVector Location);
 
-	UFUNCTION(BlueprintCallable, Category = "Setup")
-		void SetAttach(UAttachMesh* AttachToSet);
-
+	
 protected:
 	// APawn interface
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
@@ -72,15 +70,15 @@ protected:
 
 private:
 	virtual void Tick(float DeltaTime) override;
-	FVector GetAttachLocation();
+	
 	/** Returns CameraBoom subobject **/
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
-	void PickUp();
-	FHitResult LookForActorsInRange();
-	UPhysicsHandleComponent* PhysicsHandle = nullptr;
 	
-	UAttachMesh* Attach = nullptr;
+	UPhysicsHandleComponent* PhysicsHandle = nullptr;
+
+	void PickUp();
+
 };
 

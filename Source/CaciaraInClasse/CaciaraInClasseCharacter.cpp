@@ -5,14 +5,13 @@
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/InputComponent.h"
+#include "Public/ChiappaETiraComponent.h"
 #include "Runtime/Engine/Classes/Engine/World.h"
-#include "Runtime/Engine/Public/DrawDebugHelpers.h"
-#include "Runtime/Engine/Classes/GameFramework/Actor.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/Controller.h"
-#include "Public/AttachMesh.h"
-#include "Runtime/Engine/Classes/GameFramework/Character.h"
 #include "Runtime/Engine/Classes/PhysicsEngine/PhysicsHandleComponent.h"
+#include "Runtime/Engine/Classes/GameFramework/Character.h"
+#include "Runtime/Engine/Classes/GameFramework/Actor.h"
 #include "GameFramework/SpringArmComponent.h"
 
 //////////////////////////////////////////////////////////////////////////
@@ -51,7 +50,7 @@ ACaciaraInClasseCharacter::ACaciaraInClasseCharacter()
 
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
-	
+	PhysicsHandle = FindComponentByClass<UPhysicsHandleComponent>();
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -59,19 +58,10 @@ ACaciaraInClasseCharacter::ACaciaraInClasseCharacter()
 void::ACaciaraInClasseCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	if (PhysicsHandle->GrabbedComponent)
-	{
-		PhysicsHandle->SetTargetLocation(GetAttachLocation());
-	}
-}
-
-FVector ACaciaraInClasseCharacter::GetAttachLocation()
-{
-	if (!Attach) { UE_LOG(LogTemp, Warning, TEXT("No AttachMesh")) return GetActorLocation(); }
 	
-	return Attach->GetComponentLocation();
-
 }
+
+
 void ACaciaraInClasseCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
 {
 	// Set up gameplay key bindings
@@ -94,7 +84,7 @@ void ACaciaraInClasseCharacter::SetupPlayerInputComponent(class UInputComponent*
 
 	// VR headset functionality
 	PlayerInputComponent->BindAction("ResetVR", IE_Pressed, this, &ACaciaraInClasseCharacter::OnResetVR);
-	PhysicsHandle = FindComponentByClass<UPhysicsHandleComponent>();
+	
 
 }
 
@@ -156,70 +146,10 @@ void ACaciaraInClasseCharacter::MoveRight(float Value)
 }
 
 	void ACaciaraInClasseCharacter::PickUp()
-{
-		if (!PhysicsHandle) { 
-			 UE_LOG(LogTemp, Warning, TEXT("No PhysicsHandle")) 
-			return; }
-		auto Hit = LookForActorsInRange();
-		auto Actor = Hit.GetActor();
-		auto HitRoot = Hit.GetComponent();
-		if (Actor)
-		{
-			if (HitRoot)
-			{
-				PhysicsHandle->GrabComponent
-				(
-					HitRoot,
-					NAME_None, //
-					Actor->GetActorLocation(),
-					true //Allow rotation
-				);
-				
-				
-				UE_LOG(LogTemp, Warning, TEXT("Actor Attached"))
-					
-			}
-			else { UE_LOG(LogTemp, Warning, TEXT("no  hit root")) }
-		}
-		else { UE_LOG(LogTemp, Warning, TEXT("no actor found")) }
-		
-		
-}
-
-
-	FHitResult ACaciaraInClasseCharacter::LookForActorsInRange()
 	{
-		// create tarray for hit results
-		FHitResult Hit;
 
-	// start and end locations
-	FVector SweepStart = GetActorLocation();
-	FVector SweepEnd = GetActorLocation();
-
-	// create a collision sphere
-	FCollisionShape Sphere = FCollisionShape::MakeSphere(100.0f);
-	FQuat Quat;
-	FCollisionQueryParams SweepParameters(FName(TEXT("")), false, GetOwner());
-
-	// draw collision sphere
-	DrawDebugSphere(GetWorld(), GetActorLocation(), Sphere.GetSphereRadius(), 50, FColor::Purple, true);
-
-	// check if something got hit in the sweep
-	GetWorld()->SweepSingleByObjectType
-	(
-		Hit,
-		SweepStart,
-		SweepEnd,
-		Quat,
-		ECC_PhysicsBody,
-		Sphere,
-		SweepParameters
-	);
-	  return  Hit;
+	
+	
 	}
 
 
-	void ACaciaraInClasseCharacter::SetAttach(UAttachMesh* AttachToSet)
-	{
-		Attach = AttachToSet;
-	}
