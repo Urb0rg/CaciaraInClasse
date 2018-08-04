@@ -12,6 +12,7 @@
 #include "Runtime/Engine/Classes/PhysicsEngine/PhysicsHandleComponent.h"
 #include "Runtime/Engine/Classes/GameFramework/Character.h"
 #include "Runtime/Engine/Classes/GameFramework/Actor.h"
+#include "Public/ChiappaETiraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 
 //////////////////////////////////////////////////////////////////////////
@@ -50,7 +51,7 @@ ACaciaraInClasseCharacter::ACaciaraInClasseCharacter()
 
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
-	PhysicsHandle = FindComponentByClass<UPhysicsHandleComponent>();
+	
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -60,6 +61,7 @@ void::ACaciaraInClasseCharacter::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 	
 }
+
 
 
 void ACaciaraInClasseCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
@@ -147,9 +149,12 @@ void ACaciaraInClasseCharacter::MoveRight(float Value)
 
 	void ACaciaraInClasseCharacter::PickUp()
 	{
-
-	
+		if (!ChiappaETira) { UE_LOG(LogTemp, Warning, TEXT("no chiappa e tira component on player")) return; }
+		ChiappaETira->PickUp();
 	
 	}
 
-
+	void ACaciaraInClasseCharacter::SetChiappaETiraComponent(UChiappaETiraComponent* ChiappaETiraToSet)
+	{
+		ChiappaETira = ChiappaETiraToSet;
+	}

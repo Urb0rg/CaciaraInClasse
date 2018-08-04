@@ -9,6 +9,7 @@
 
 
 class UPhysicsHandleComponent;
+class UChiappaETiraComponent;
 
 UCLASS(config=Game)
 class ACaciaraInClasseCharacter : public ACharacter
@@ -63,6 +64,9 @@ protected:
 	void TouchStopped(ETouchIndex::Type FingerIndex, FVector Location);
 
 	
+
+	UFUNCTION(BlueprintCallable, Category = "Setup")
+		void SetChiappaETiraComponent(UChiappaETiraComponent* ChiappaETiraToSet);
 protected:
 	// APawn interface
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
@@ -76,9 +80,9 @@ private:
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
 	
-	UPhysicsHandleComponent* PhysicsHandle = nullptr;
+	
 
 	void PickUp();
-
+	UChiappaETiraComponent* ChiappaETira = nullptr;
 };
 

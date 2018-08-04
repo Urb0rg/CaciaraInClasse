@@ -5,6 +5,7 @@
 #include "Runtime/Engine/Classes/PhysicsEngine/PhysicsHandleComponent.h"
 #include "Runtime/Engine/Classes/GameFramework/Actor.h"
 #include "Runtime/Engine/Classes/Engine/World.h"
+#include "CaciaraInClasse.h"
 #include "Runtime/Engine/Public/DrawDebugHelpers.h"
 
 // Sets default values for this component's properties
@@ -13,7 +14,6 @@ UChiappaETiraComponent::UChiappaETiraComponent()
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
-
 	
 }
 
@@ -23,9 +23,10 @@ void UChiappaETiraComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// ...
-	
+	PhysicsHandle = GetOwner()->FindComponentByClass<UPhysicsHandleComponent>();	
+	Attach = GetOwner()->FindComponentByClass<UAttachMesh>();
 }
+
 
 
 // Called every frame
@@ -38,6 +39,10 @@ void UChiappaETiraComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 		PhysicsHandle->SetTargetLocation(GetAttachLocation());
 	}
 }
+
+
+
+
 
 FHitResult UChiappaETiraComponent::LookForActorsInRange()
 {
@@ -67,6 +72,7 @@ FHitResult UChiappaETiraComponent::LookForActorsInRange()
 		Sphere,
 		SweepParameters
 	);
+	  
 	return  Hit;
 }
 
@@ -78,11 +84,14 @@ void UChiappaETiraComponent::PickUp()
 		UE_LOG(LogTemp, Warning, TEXT("No PhysicsHandle"))
 			return;
 	}
+	
 	auto Hit = LookForActorsInRange();
 	auto Actor = Hit.GetActor();
 	auto HitRoot = Hit.GetComponent();
 	if (Actor)
 	{
+		
+
 		if (HitRoot)
 		{
 			PhysicsHandle->GrabComponent
@@ -97,7 +106,7 @@ void UChiappaETiraComponent::PickUp()
 			UE_LOG(LogTemp, Warning, TEXT("Actor Attached"))
 
 		}
-		else { UE_LOG(LogTemp, Warning, TEXT("no  hit root")) }
+			else { UE_LOG(LogTemp, Warning, TEXT("no  hit root")) }
 	}
 	else { UE_LOG(LogTemp, Warning, TEXT("no actor found")) }
 
