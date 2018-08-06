@@ -54,6 +54,12 @@ ACaciaraInClasseCharacter::ACaciaraInClasseCharacter()
 	
 }
 
+void ACaciaraInClasseCharacter::BeginPlay()
+{
+	Super::BeginPlay();
+	
+}
+
 //////////////////////////////////////////////////////////////////////////
 // Input
 void::ACaciaraInClasseCharacter::Tick(float DeltaTime)
@@ -69,6 +75,7 @@ void ACaciaraInClasseCharacter::SetupPlayerInputComponent(class UInputComponent*
 	// Set up gameplay key bindings
 	check(PlayerInputComponent);
 	PlayerInputComponent->BindAction("PickUp", IE_Pressed, this, &ACaciaraInClasseCharacter::PickUp);
+	PlayerInputComponent->BindAction("Throw", IE_Pressed, this, &ACaciaraInClasseCharacter::Throw);
 	PlayerInputComponent->BindAxis("MoveForward", this, &ACaciaraInClasseCharacter::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &ACaciaraInClasseCharacter::MoveRight);
 
@@ -147,6 +154,12 @@ void ACaciaraInClasseCharacter::MoveRight(float Value)
 	}
 }
 
+void ACaciaraInClasseCharacter::SetChiappaETira(UChiappaETiraComponent* ChiappaETiraToSet)
+{
+	ChiappaETira = ChiappaETiraToSet;
+
+}
+
 	void ACaciaraInClasseCharacter::PickUp()
 	{
 		if (!ChiappaETira) { UE_LOG(LogTemp, Warning, TEXT("no chiappa e tira component on player")) return; }
@@ -154,7 +167,8 @@ void ACaciaraInClasseCharacter::MoveRight(float Value)
 	
 	}
 
-	void ACaciaraInClasseCharacter::SetChiappaETiraComponent(UChiappaETiraComponent* ChiappaETiraToSet)
+	void ACaciaraInClasseCharacter::Throw()
 	{
-		ChiappaETira = ChiappaETiraToSet;
+		if (!ChiappaETira) { UE_LOG(LogTemp, Warning, TEXT("no chiappaetiracomponent")) return; }
+		ChiappaETira->Throw(ThrowSpeed);
 	}

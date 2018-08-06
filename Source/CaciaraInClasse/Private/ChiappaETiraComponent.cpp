@@ -113,11 +113,27 @@ void UChiappaETiraComponent::PickUp()
 
 }
 
-
-void UChiappaETiraComponent::SetAttach(UAttachMesh* AttachToSet)
+void UChiappaETiraComponent::Throw(float ForceApplied)
 {
-	Attach = AttachToSet;
+
+	 UE_LOG(LogTemp, Warning, TEXT("THROW")) 
+	/*if (!PhysicsHandle) { UE_LOG(LogTemp, Warning, TEXT("no physicshandle")) return; }*/
+	if (!PhysicsHandle->GetGrabbedComponent()) { UE_LOG(LogTemp, Warning, TEXT("no attached component to throw")) return; }
+	 auto AttachedComponent = PhysicsHandle->GetGrabbedComponent();
+	 FVector ForceLocation = AttachedComponent->GetComponentLocation();
+	 FVector ForceToApply = (GetOwner()->GetActorForwardVector()*ForceApplied);
+	 AttachedComponent->AddForceAtLocation(ForceToApply, ForceLocation);
+	 PhysicsHandle->ReleaseComponent();
+	/*;
+	//TODO fa crashare tutto!!
+	
+
+	
+	*/
 }
+
+
+
 
 
 FVector UChiappaETiraComponent::GetAttachLocation()

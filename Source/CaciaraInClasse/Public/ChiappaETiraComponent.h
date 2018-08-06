@@ -18,10 +18,10 @@ class CACIARAINCLASSE_API UChiappaETiraComponent : public UActorComponent
 public:
 	// Sets default values for this component's properties
 	UChiappaETiraComponent();
-	UFUNCTION(BlueprintCallable, Category = "Setup")
-		void SetAttach(UAttachMesh* AttachToSet);
+	
 
 	void PickUp();
+	void Throw(float ForceApplied);
 
 protected:
 	// Called when the game starts

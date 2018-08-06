@@ -25,7 +25,7 @@ class ACaciaraInClasseCharacter : public ACharacter
 	class UCameraComponent* FollowCamera;
 public:
 	ACaciaraInClasseCharacter();
-
+	virtual void BeginPlay() override;
 	/** Base turn rate, in deg/sec. Other scaling may affect final turn rate. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
 	float BaseTurnRate;
@@ -63,10 +63,11 @@ protected:
 	/** Handler for when a touch input stops. */
 	void TouchStopped(ETouchIndex::Type FingerIndex, FVector Location);
 
+	UFUNCTION(BlueprintCallable)
+		void SetChiappaETira(UChiappaETiraComponent* ChiappaETiraToSet);
 	
 
-	UFUNCTION(BlueprintCallable, Category = "Setup")
-		void SetChiappaETiraComponent(UChiappaETiraComponent* ChiappaETiraToSet);
+	
 protected:
 	// APawn interface
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
@@ -79,10 +80,12 @@ private:
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
-	
-	
 
 	void PickUp();
+	void Throw();
+
 	UChiappaETiraComponent* ChiappaETira = nullptr;
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
+		float ThrowSpeed = 10000.f;
 };
 
