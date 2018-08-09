@@ -33,11 +33,17 @@ void UChiappaETiraComponent::BeginPlay()
 void UChiappaETiraComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+	if (IsPickingUp)
+	{
+	if ((GetWorld()->GetTimeSeconds() - Time) >= PickUpCooldown) { IsPickingUp = false; }
+	}
 
 	if (PhysicsHandle->GrabbedComponent)
 	{
 		PhysicsHandle->SetTargetLocation(GetAttachLocation());
 	}
+
+	
 }
 
 
@@ -59,7 +65,7 @@ FHitResult UChiappaETiraComponent::LookForActorsInRange()
 	FCollisionQueryParams SweepParameters(FName(TEXT("")), false, GetOwner());
 
 	// draw collision sphere
-	DrawDebugSphere(GetWorld(), GetOwner()->GetActorLocation(), Sphere.GetSphereRadius(), 50, FColor::Purple, true);
+	//DrawDebugSphere(GetWorld(), GetOwner()->GetActorLocation(), Sphere.GetSphereRadius(), 50, FColor::Purple, true);
 
 	// check if something got hit in the sweep
 	GetWorld()->SweepSingleByObjectType
@@ -84,6 +90,7 @@ void UChiappaETiraComponent::PickUp()
 		UE_LOG(LogTemp, Warning, TEXT("No PhysicsHandle"))
 			return;
 	}
+	if (PhysicsHandle->GetGrabbedComponent()) { UE_LOG(LogTemp, Warning, TEXT("already holding an object")) return; }
 	
 	auto Hit = LookForActorsInRange();
 	auto Actor = Hit.GetActor();
@@ -91,9 +98,9 @@ void UChiappaETiraComponent::PickUp()
 	if (Actor)
 	{
 		
-
 		if (HitRoot)
 		{
+			IsPickingUp = true;
 			PhysicsHandle->GrabComponent
 			(
 				HitRoot,
@@ -101,9 +108,9 @@ void UChiappaETiraComponent::PickUp()
 				Actor->GetActorLocation(),
 				true //Allow rotation
 			);
+			
 
-
-			UE_LOG(LogTemp, Warning, TEXT("Actor Attached"))
+			Time = GetWorld()->GetTimeSeconds();
 
 		}
 			else { UE_LOG(LogTemp, Warning, TEXT("no  hit root")) }
@@ -117,19 +124,16 @@ void UChiappaETiraComponent::Throw(float ForceApplied)
 {
 
 	 UE_LOG(LogTemp, Warning, TEXT("THROW")) 
-	/*if (!PhysicsHandle) { UE_LOG(LogTemp, Warning, TEXT("no physicshandle")) return; }*/
-	if (!PhysicsHandle->GetGrabbedComponent()) { UE_LOG(LogTemp, Warning, TEXT("no attached component to throw")) return; }
+	
+		 //if (!PhysicsHandle) { UE_LOG(LogTemp, Warning, TEXT("no physicshandle")) return; }
+		 if (!PhysicsHandle->GetGrabbedComponent()) { UE_LOG(LogTemp, Warning, TEXT("no attached component to throw")) return; }
+
 	 auto AttachedComponent = PhysicsHandle->GetGrabbedComponent();
 	 FVector ForceLocation = AttachedComponent->GetComponentLocation();
 	 FVector ForceToApply = (GetOwner()->GetActorForwardVector()*ForceApplied);
 	 AttachedComponent->AddForceAtLocation(ForceToApply, ForceLocation);
 	 PhysicsHandle->ReleaseComponent();
-	/*;
-	//TODO fa crashare tutto!!
 	
-
-	
-	*/
 }
 
 

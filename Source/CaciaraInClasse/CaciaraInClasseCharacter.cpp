@@ -65,6 +65,7 @@ void ACaciaraInClasseCharacter::BeginPlay()
 void::ACaciaraInClasseCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
 	
 }
 
@@ -163,8 +164,9 @@ void ACaciaraInClasseCharacter::SetChiappaETira(UChiappaETiraComponent* ChiappaE
 	void ACaciaraInClasseCharacter::PickUp()
 	{
 		if (!ChiappaETira) { UE_LOG(LogTemp, Warning, TEXT("no chiappa e tira component on player")) return; }
+		
 		ChiappaETira->PickUp();
-	
+		
 	}
 
 	void ACaciaraInClasseCharacter::Throw()

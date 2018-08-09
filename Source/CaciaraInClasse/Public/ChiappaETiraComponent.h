@@ -18,7 +18,9 @@ class CACIARAINCLASSE_API UChiappaETiraComponent : public UActorComponent
 public:
 	// Sets default values for this component's properties
 	UChiappaETiraComponent();
-	
+
+	UPROPERTY(BlueprintReadOnly)
+		bool IsPickingUp = false;
 
 	void PickUp();
 	void Throw(float ForceApplied);
@@ -30,12 +32,15 @@ protected:
 public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+
 private:
 	FVector GetAttachLocation();
 
 	FHitResult LookForActorsInRange();
 
 	UPhysicsHandleComponent* PhysicsHandle = nullptr;
+	float Time = 0.f;
+	float PickUpCooldown = 0.2;
 
 	UAttachMesh* Attach = nullptr;
 
