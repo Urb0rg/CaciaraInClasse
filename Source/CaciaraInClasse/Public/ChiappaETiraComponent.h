@@ -20,7 +20,7 @@ public:
 	UChiappaETiraComponent();
 
 	UPROPERTY(BlueprintReadOnly)
-		bool IsPickingUp = false;
+	bool IsPickingUp = false;
 
 	void PickUp();
 	void Throw(float ForceApplied);
@@ -39,9 +39,10 @@ private:
 	FHitResult LookForActorsInRange();
 
 	UPhysicsHandleComponent* PhysicsHandle = nullptr;
-	float Time = 0.f;
-	float PickUpCooldown = 0.2;
-
+	float PickUpAnimTime = 0.f;
+	float PickUpTime = 0.f;
+	float PickUpAnimCooldown = 0.2;
+	float PickUpCooldown = .8;
 	UAttachMesh* Attach = nullptr;
 
 };

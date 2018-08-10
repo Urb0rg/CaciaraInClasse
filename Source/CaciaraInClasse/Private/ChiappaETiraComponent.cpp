@@ -35,7 +35,7 @@ void UChiappaETiraComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 	if (IsPickingUp)
 	{
-	if ((GetWorld()->GetTimeSeconds() - Time) >= PickUpCooldown) { IsPickingUp = false; }
+	if ((GetWorld()->GetTimeSeconds() - PickUpAnimTime) >= PickUpAnimCooldown) { IsPickingUp = false; }
 	}
 
 	if (PhysicsHandle->GrabbedComponent)
@@ -86,6 +86,14 @@ FHitResult UChiappaETiraComponent::LookForActorsInRange()
 
 void UChiappaETiraComponent::PickUp()
 {
+	if ((GetWorld()->GetTimeSeconds() - PickUpTime ) <= (PickUpCooldown))
+	{ 
+		auto Gtimeleft = (GetWorld()->GetTimeSeconds() - PickUpTime);
+		UE_LOG(LogTemp, Warning, TEXT("pickup not ready yet, - %f seconds"), Gtimeleft)
+			PickUpTime = GetWorld()->GetTimeSeconds();
+			return; 
+	}
+
 	if (!PhysicsHandle) {
 		UE_LOG(LogTemp, Warning, TEXT("No PhysicsHandle"))
 			return;
@@ -98,8 +106,9 @@ void UChiappaETiraComponent::PickUp()
 	if (Actor)
 	{
 		
-		if (HitRoot)
-		{
+		//if (HitRoot)
+		//{
+		
 			IsPickingUp = true;
 			PhysicsHandle->GrabComponent
 			(
@@ -109,24 +118,22 @@ void UChiappaETiraComponent::PickUp()
 				true //Allow rotation
 			);
 			
-
-			Time = GetWorld()->GetTimeSeconds();
-
-		}
-			else { UE_LOG(LogTemp, Warning, TEXT("no  hit root")) }
+			PickUpTime = GetWorld()->GetTimeSeconds();
+			
+		//}
+			//else { UE_LOG(LogTemp, Warning, TEXT("no  hit root")) }
 	}
-	else { UE_LOG(LogTemp, Warning, TEXT("no actor found")) }
-
+	else { UE_LOG(LogTemp, Warning, TEXT("no actor found")) PickUpTime = GetWorld()->GetTimeSeconds(); return; }
 
 }
 
 void UChiappaETiraComponent::Throw(float ForceApplied)
 {
 
-	 UE_LOG(LogTemp, Warning, TEXT("THROW")) 
+	 
 	
 		 //if (!PhysicsHandle) { UE_LOG(LogTemp, Warning, TEXT("no physicshandle")) return; }
-		 if (!PhysicsHandle->GetGrabbedComponent()) { UE_LOG(LogTemp, Warning, TEXT("no attached component to throw")) return; }
+	 if (!PhysicsHandle->GetGrabbedComponent()) { UE_LOG(LogTemp, Warning, TEXT("no attached component to throw")) return; }
 
 	 auto AttachedComponent = PhysicsHandle->GetGrabbedComponent();
 	 FVector ForceLocation = AttachedComponent->GetComponentLocation();
