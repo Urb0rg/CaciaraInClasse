@@ -40,3 +40,9 @@ FHitResult ACICAIController::LookForActorsInRange()
 
 	return  Hit;
 }
+AActor* ACICAIController::GetActorToGrab()
+{
+	auto Hit = LookForActorsInRange();
+	auto Actor = Hit.GetActor();
+	return Actor;
+}
