@@ -50,7 +50,7 @@ void UChiappaETiraComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 
 
 
-FHitResult UChiappaETiraComponent::LookForActorsInRange()
+FHitResult UChiappaETiraComponent::LookForActorsInRange()//TODO make sweep multy by object and select a random object on the object getter.
 {
 	// create tarray for hit results
 	FHitResult Hit;

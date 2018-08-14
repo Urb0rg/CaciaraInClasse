@@ -15,6 +15,9 @@ class CACIARAINCLASSE_API ACICAIController : public AAIController
 	GENERATED_BODY()
 public:
 	UFUNCTION(BlueprintCallable)
+		AActor* GetActorToPick();
+
+private:
 	FHitResult LookForActorsInRange();
 	
 	
