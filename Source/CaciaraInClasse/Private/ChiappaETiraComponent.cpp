@@ -117,8 +117,9 @@ void UChiappaETiraComponent::PickUp()
 				Actor->GetActorLocation(),
 				true //Allow rotation
 			);
+			 
+			PickUpTime, PickUpAnimTime = GetWorld()->GetTimeSeconds();
 			
-			PickUpTime = GetWorld()->GetTimeSeconds();
 			
 		//}
 			//else { UE_LOG(LogTemp, Warning, TEXT("no  hit root")) }

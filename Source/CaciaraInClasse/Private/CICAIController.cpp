@@ -4,9 +4,16 @@
 #include "Runtime/Engine/Classes/GameFramework/Controller.h"
 #include "Runtime/Engine/Classes/GameFramework/Actor.h"
 #include "Runtime/Engine/Classes/Engine/World.h"
+#include "ChiappaETiraComponent.h"
 #include "Runtime/Engine/Public/DrawDebugHelpers.h"
 
+void ACICAIController::BeginPlay()
+{
+	Super::BeginPlay();
 
+	Chiappa = GetPawn()->FindComponentByClass<UChiappaETiraComponent>();
+
+}
 
 FHitResult ACICAIController::LookForActorsInRange()
 {
@@ -46,4 +53,11 @@ AActor* ACICAIController::GetActorToPick()
 	auto Hit = LookForActorsInRange();
 	auto Actor = Hit.GetActor();
 	return Actor;
+}
+void ACICAIController::PickUp()
+{
+	if (!Chiappa) { UE_LOG(LogTemp, Warning, TEXT("no chiappa su ai controller"))  return; }
+	
+	Chiappa->PickUp();
+	Grabbing = true;
 }

@@ -21,6 +21,8 @@ public:
 
 	UPROPERTY(BlueprintReadOnly)
 	bool IsPickingUp = false;
+	
+		
 
 	void PickUp();
 	void Throw(float ForceApplied);
@@ -32,7 +34,7 @@ protected:
 public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-
+	
 private:
 	FVector GetAttachLocation();
 
@@ -41,7 +43,7 @@ private:
 	UPhysicsHandleComponent* PhysicsHandle = nullptr;
 	float PickUpAnimTime = 0.f;
 	float PickUpTime = 0.f;
-	float PickUpAnimCooldown = 0.2;
+	float PickUpAnimCooldown = .2;
 	float PickUpCooldown = .8;
 	UAttachMesh* Attach = nullptr;
 

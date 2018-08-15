@@ -9,6 +9,9 @@
 /**
  * 
  */
+
+class UChiappaETiraComponent;
+
 UCLASS()
 class CACIARAINCLASSE_API ACICAIController : public AAIController
 {
@@ -16,10 +19,19 @@ class CACIARAINCLASSE_API ACICAIController : public AAIController
 public:
 	UFUNCTION(BlueprintCallable)
 		AActor* GetActorToPick();
+	UFUNCTION(BlueprintCallable)
+	void PickUp();
+	
+
+	UPROPERTY(BlueprintReadOnly)
+	bool Grabbing = false;
+
+	virtual void BeginPlay() override;
 
 private:
 	FHitResult LookForActorsInRange();
 	
+	UChiappaETiraComponent* Chiappa = nullptr;
 	
 	
 };
