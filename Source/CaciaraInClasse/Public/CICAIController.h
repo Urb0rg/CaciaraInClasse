@@ -21,7 +21,8 @@ public:
 		AActor* GetActorToPick();
 	UFUNCTION(BlueprintCallable)
 	void PickUp();
-	
+	UFUNCTION(BlueprintCallable)
+		void Throw();
 
 	UPROPERTY(BlueprintReadOnly)
 	bool Grabbing = false;
@@ -32,6 +33,6 @@ private:
 	FHitResult LookForActorsInRange();
 	
 	UChiappaETiraComponent* Chiappa = nullptr;
-	
+	float ThrowSpeed = 1200000.f;
 	
 };

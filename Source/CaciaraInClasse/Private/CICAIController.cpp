@@ -48,7 +48,7 @@ FHitResult ACICAIController::LookForActorsInRange()
 	return  Hit;
 }
 
-AActor* ACICAIController::GetActorToPick()
+AActor* ACICAIController::GetActorToPick()//TODO make a sweep multy y object type and select a random object to pick
 {
 	auto Hit = LookForActorsInRange();
 	auto Actor = Hit.GetActor();
@@ -57,7 +57,15 @@ AActor* ACICAIController::GetActorToPick()
 void ACICAIController::PickUp()
 {
 	if (!Chiappa) { UE_LOG(LogTemp, Warning, TEXT("no chiappa su ai controller"))  return; }
-	
+
 	Chiappa->PickUp();
 	Grabbing = true;
+}
+
+void ACICAIController::Throw()
+{
+	if (!Chiappa) { UE_LOG(LogTemp, Warning, TEXT("no chiappa su ai controller"))  return; }
+
+	Chiappa->Throw(ThrowSpeed);
+	Grabbing = false;
 }
