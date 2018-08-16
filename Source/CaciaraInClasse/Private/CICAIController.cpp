@@ -12,7 +12,6 @@ void ACICAIController::BeginPlay()
 	Super::BeginPlay();
 
 	Chiappa = GetPawn()->FindComponentByClass<UChiappaETiraComponent>();
-
 }
 
 FHitResult ACICAIController::LookForActorsInRange()

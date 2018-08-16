@@ -152,4 +152,4 @@ FVector UChiappaETiraComponent::GetAttachLocation()
 AActor* UChiappaETiraComponent::GetGrabbedObject()
 {
 	return GrabbedObject;
-}
+}	
