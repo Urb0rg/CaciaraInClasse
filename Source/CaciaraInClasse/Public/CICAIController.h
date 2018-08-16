@@ -23,6 +23,8 @@ public:
 	void PickUp();
 	UFUNCTION(BlueprintCallable)
 		void Throw();
+	UFUNCTION(BlueprintCallable)
+		AActor* GetGrabbedObject();
 
 	UPROPERTY(BlueprintReadOnly)
 	bool Grabbing = false;

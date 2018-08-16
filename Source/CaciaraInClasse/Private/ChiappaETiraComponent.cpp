@@ -93,22 +93,19 @@ void UChiappaETiraComponent::PickUp()
 			PickUpTime = GetWorld()->GetTimeSeconds();
 			return; 
 	}
-
-	if (!PhysicsHandle) {
+	if (!PhysicsHandle) 
+	{
 		UE_LOG(LogTemp, Warning, TEXT("No PhysicsHandle"))
 			return;
 	}
 	if (PhysicsHandle->GetGrabbedComponent()) { UE_LOG(LogTemp, Warning, TEXT("already holding an object")) return; }
-	
+
 	auto Hit = LookForActorsInRange();
 	auto Actor = Hit.GetActor();
 	auto HitRoot = Hit.GetComponent();
+
 	if (Actor)
 	{
-		
-		//if (HitRoot)
-		//{
-		
 			IsPickingUp = true;
 			PhysicsHandle->GrabComponent
 			(
@@ -119,10 +116,7 @@ void UChiappaETiraComponent::PickUp()
 			);
 			 
 			PickUpTime, PickUpAnimTime = GetWorld()->GetTimeSeconds();
-			
-			
-		//}
-			//else { UE_LOG(LogTemp, Warning, TEXT("no  hit root")) }
+			GrabbedObject = PhysicsHandle->GetGrabbedComponent()->GetOwner();
 	}
 	else { UE_LOG(LogTemp, Warning, TEXT("no actor found")) PickUpTime = GetWorld()->GetTimeSeconds(); return; }
 
@@ -153,5 +147,9 @@ FVector UChiappaETiraComponent::GetAttachLocation()
 	if (!Attach) { UE_LOG(LogTemp, Warning, TEXT("No AttachMesh")) return GetOwner()->GetActorLocation(); }
 
 	return Attach->GetComponentLocation();
+}
 
+AActor* UChiappaETiraComponent::GetGrabbedObject()
+{
+	return GrabbedObject;
 }

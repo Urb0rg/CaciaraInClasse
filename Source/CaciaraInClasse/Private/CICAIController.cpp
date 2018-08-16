@@ -56,7 +56,7 @@ AActor* ACICAIController::GetActorToPick()//TODO make a sweep multy y object typ
 }
 void ACICAIController::PickUp()
 {
-	if (!Chiappa) { UE_LOG(LogTemp, Warning, TEXT("no chiappa su ai controller"))  return; }
+	if (!Chiappa) { UE_LOG(LogTemp, Warning, TEXT("no chiappa su ai controller while picking up"))  return; }
 
 	Chiappa->PickUp();
 	Grabbing = true;
@@ -64,8 +64,14 @@ void ACICAIController::PickUp()
 
 void ACICAIController::Throw()
 {
-	if (!Chiappa) { UE_LOG(LogTemp, Warning, TEXT("no chiappa su ai controller"))  return; }
+	if (!Chiappa) { UE_LOG(LogTemp, Warning, TEXT("no chiappa su ai controller ehile throwing object"))  return; }
 
 	Chiappa->Throw(ThrowSpeed);
 	Grabbing = false;
+}
+
+AActor* ACICAIController::GetGrabbedObject()
+{
+	if (!Chiappa) { UE_LOG(LogTemp, Warning, TEXT("no chiappa su ai controller while getting grabbed object"))  return nullptr; }
+	return Chiappa->GetGrabbedObject();
 }

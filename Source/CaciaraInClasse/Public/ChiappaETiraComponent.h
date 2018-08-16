@@ -22,7 +22,7 @@ public:
 	UPROPERTY(BlueprintReadOnly)
 	bool IsPickingUp = false;
 	
-		
+	AActor* GetGrabbedObject();
 
 	void PickUp();
 	void Throw(float ForceApplied);
@@ -39,6 +39,8 @@ private:
 	FVector GetAttachLocation();
 
 	FHitResult LookForActorsInRange();
+
+	AActor* GrabbedObject = nullptr;
 
 	UPhysicsHandleComponent* PhysicsHandle = nullptr;
 	float PickUpAnimTime = 0.f;
