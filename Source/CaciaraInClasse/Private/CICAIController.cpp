@@ -17,10 +17,10 @@ void ACICAIController::BeginPlay()
 FHitResult ACICAIController::LookForActorsInRange()
 {
 	// create tarray for hit results
-	FHitResult Hit;
+	TArray<FHitResult> Hit;
 	 UE_LOG(LogTemp, Warning, TEXT("LFAIR")) 
 	// start and end locations
-		 if (!GetPawn()) { UE_LOG(LogTemp, Warning, TEXT("no pawn possessed by AIController")) return Hit; }
+		 if (!GetPawn()) { UE_LOG(LogTemp, Warning, TEXT("no pawn possessed by AIController")) return Hit[0]; }
 	FVector SweepStart = GetPawn()->GetActorLocation();
 	FVector SweepEnd = GetPawn()->GetActorLocation();
 
@@ -33,7 +33,7 @@ FHitResult ACICAIController::LookForActorsInRange()
 	DrawDebugSphere(GetWorld(), GetPawn()->GetActorLocation(), Sphere.GetSphereRadius(), 50, FColor::Purple, true);
 
 	// check if something got hit in the sweep
-	GetWorld()->SweepSingleByObjectType
+	GetWorld()->SweepMultiByObjectType
 	(
 		Hit,
 		SweepStart,
@@ -43,8 +43,7 @@ FHitResult ACICAIController::LookForActorsInRange()
 		Sphere,
 		SweepParameters
 	);
-
-	return  Hit;
+	return GetRandomActorInRange(Hit);
 }
 
 AActor* ACICAIController::GetActorToPick()//TODO make a sweep multy y object type and select a random object to pick
@@ -73,4 +72,12 @@ AActor* ACICAIController::GetGrabbedObject()
 {
 	if (!Chiappa) { UE_LOG(LogTemp, Warning, TEXT("no chiappa su ai controller while getting grabbed object"))  return nullptr; }
 	return Chiappa->GetGrabbedObject();
+}
+
+FHitResult ACICAIController::GetRandomActorInRange(TArray<FHitResult> HitArray)
+{
+	auto ArrayLength = HitArray.Num();
+	int RandIndex = rand() % ArrayLength;
+	FHitResult RandomActorInRange = HitArray[RandIndex];
+	return RandomActorInRange;
 }

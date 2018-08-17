@@ -37,4 +37,5 @@ private:
 	UChiappaETiraComponent* Chiappa = nullptr;
 	float ThrowSpeed = 1200000.f;
 	
+	FHitResult GetRandomActorInRange(TArray<FHitResult> HitArray);
 };
