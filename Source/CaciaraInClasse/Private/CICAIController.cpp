@@ -7,6 +7,8 @@
 #include "ChiappaETiraComponent.h"
 #include "Runtime/Engine/Public/DrawDebugHelpers.h"
 
+
+
 void ACICAIController::BeginPlay()
 {
 	Super::BeginPlay();
@@ -25,7 +27,7 @@ FHitResult ACICAIController::LookForActorsInRange()
 	FVector SweepEnd = GetPawn()->GetActorLocation();
 
 	// create a collision sphere
-	FCollisionShape Sphere = FCollisionShape::MakeSphere(1500.0f);
+	FCollisionShape Sphere = FCollisionShape::MakeSphere(2500.0f);
 	FQuat Quat;
 	FCollisionQueryParams SweepParameters(FName(TEXT("")), false, GetOwner());
 
@@ -43,15 +45,21 @@ FHitResult ACICAIController::LookForActorsInRange()
 		Sphere,
 		SweepParameters
 	);
+
+	
 	return GetRandomActorInRange(Hit);
 }
+
+
 
 AActor* ACICAIController::GetActorToPick()//TODO make a sweep multy y object type and select a random object to pick
 {
 	auto Hit = LookForActorsInRange();
 	auto Actor = Hit.GetActor();
-	return Actor;
+	return Actor; 
 }
+
+
 void ACICAIController::PickUp()
 {
 	if (!Chiappa) { UE_LOG(LogTemp, Warning, TEXT("no chiappa su ai controller while picking up"))  return; }
@@ -76,8 +84,13 @@ AActor* ACICAIController::GetGrabbedObject()
 
 FHitResult ACICAIController::GetRandomActorInRange(TArray<FHitResult> HitArray)
 {
-	auto ArrayLength = HitArray.Num();
-	int RandIndex = rand() % ArrayLength;
+	int32 ArrayLength = HitArray.Num();
+	int32 RandIndex = FMath::RandRange( 0, ArrayLength - 1);
+	 UE_LOG(LogTemp, Warning, TEXT("random = %d"), RandIndex) 
 	FHitResult RandomActorInRange = HitArray[RandIndex];
-	return RandomActorInRange;
+	 if (ArrayLength > 1) {
+		 return RandomActorInRange;
+	 }
+	 else { UE_LOG(LogTemp, Warning, TEXT(" no actors to pick")) return RandomActorInRange;
+	 }
 }

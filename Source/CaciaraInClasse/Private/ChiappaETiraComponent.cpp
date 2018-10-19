@@ -6,6 +6,8 @@
 #include "Runtime/Engine/Classes/GameFramework/Actor.h"
 #include "Runtime/Engine/Classes/Engine/World.h"
 #include "CaciaraInClasse.h"
+#include "CICAIController.h"
+#include "OggettoPrendibile.h"
 #include "Runtime/Engine/Public/DrawDebugHelpers.h"
 
 // Sets default values for this component's properties
@@ -115,8 +117,12 @@ void UChiappaETiraComponent::PickUp()
 				true //Allow rotation
 			);
 			 
+			
 			PickUpTime, PickUpAnimTime = GetWorld()->GetTimeSeconds();
 			GrabbedObject = PhysicsHandle->GetGrabbedComponent()->GetOwner();
+			auto OP = Cast<AOggettoPrendibile>(GrabbedObject);
+			OP->IsTaken = true;//variable to see if the objectis taken so other AI retarget toanothe object
+			OP->SetActorEnableCollision(false);//avoids OgettoPrendibile colliding when held by the pawn.
 	}
 	else { UE_LOG(LogTemp, Warning, TEXT("no actor found")) PickUpTime = GetWorld()->GetTimeSeconds(); return; }
 
@@ -124,18 +130,19 @@ void UChiappaETiraComponent::PickUp()
 
 void UChiappaETiraComponent::Throw(float ForceApplied)
 {
-
-	 
-	
 		 //if (!PhysicsHandle) { UE_LOG(LogTemp, Warning, TEXT("no physicshandle")) return; }
 	 if (!PhysicsHandle->GetGrabbedComponent()) { UE_LOG(LogTemp, Warning, TEXT("no attached component to throw")) return; }
 
 	 auto AttachedComponent = PhysicsHandle->GetGrabbedComponent();
 	 FVector ForceLocation = AttachedComponent->GetComponentLocation();
 	 FVector ForceToApply = (GetOwner()->GetActorForwardVector()*ForceApplied);
+
+	 auto OP = Cast<AOggettoPrendibile>(GrabbedObject);
+	 OP->SetActorEnableCollision(true);//Set back collision to hit
+	 OP->IsTaken = false;
+
 	 AttachedComponent->AddForceAtLocation(ForceToApply, ForceLocation);
 	 PhysicsHandle->ReleaseComponent();
-	
 }
 
 

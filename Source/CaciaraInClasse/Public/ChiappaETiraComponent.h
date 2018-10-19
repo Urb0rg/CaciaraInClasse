@@ -22,6 +22,7 @@ public:
 	UPROPERTY(BlueprintReadOnly)
 	bool IsPickingUp = false;
 	
+	
 	AActor* GetGrabbedObject();
 
 	void PickUp();
@@ -37,7 +38,7 @@ public:
 	
 private:
 	FVector GetAttachLocation();
-
+	
 	FHitResult LookForActorsInRange();
 
 	AActor* GrabbedObject = nullptr;

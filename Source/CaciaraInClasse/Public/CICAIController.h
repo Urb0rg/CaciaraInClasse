@@ -29,13 +29,14 @@ public:
 	UPROPERTY(BlueprintReadOnly)
 	bool Grabbing = false;
 
+
 	virtual void BeginPlay() override;
 
 private:
 	FHitResult LookForActorsInRange();
 	
 	UChiappaETiraComponent* Chiappa = nullptr;
-	float ThrowSpeed = 1200000.f;
+	float ThrowSpeed = 600000.f;
 	
 	FHitResult GetRandomActorInRange(TArray<FHitResult> HitArray);
 };
