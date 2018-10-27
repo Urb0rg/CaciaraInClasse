@@ -33,7 +33,12 @@ public:
 	/** Base look up/down rate, in deg/sec. Other scaling may affect final rate. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
 	float BaseLookUpRate;
+
+	void PickUp();
+	void Throw();
+
 	
+	UChiappaETiraComponent* ChiappaETira = nullptr;
 protected:
 
 	/** Resets HMD orientation in VR. */
@@ -63,8 +68,6 @@ protected:
 	/** Handler for when a touch input stops. */
 	void TouchStopped(ETouchIndex::Type FingerIndex, FVector Location);
 
-	UFUNCTION(BlueprintCallable)
-		void SetChiappaETira(UChiappaETiraComponent* ChiappaETiraToSet);
 	
 
 	
@@ -81,10 +84,10 @@ private:
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
 
-	void PickUp();
-	void Throw();
+	UFUNCTION(BlueprintCallable)
+		void SetChiappaETira(UChiappaETiraComponent* ChiappaETiraToSet);
 	
-	UChiappaETiraComponent* ChiappaETira = nullptr;
+	
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
 		float ThrowSpeed = 10000.f;
 };

@@ -108,7 +108,7 @@ void UChiappaETiraComponent::PickUp()
 
 	if (Actor)
 	{
-			IsPickingUp = true;
+			IsPickingUp = true;//sta raccogliendo (animazione)
 			PhysicsHandle->GrabComponent
 			(
 				HitRoot,
@@ -116,7 +116,8 @@ void UChiappaETiraComponent::PickUp()
 				Actor->GetActorLocation(),
 				true //Allow rotation
 			);
-			 
+
+			IsHoldingObject = true;
 			
 			PickUpTime, PickUpAnimTime = GetWorld()->GetTimeSeconds();
 			GrabbedObject = PhysicsHandle->GetGrabbedComponent()->GetOwner();
@@ -143,6 +144,7 @@ void UChiappaETiraComponent::Throw(float ForceApplied)
 
 	 AttachedComponent->AddForceAtLocation(ForceToApply, ForceLocation);
 	 PhysicsHandle->ReleaseComponent();
+	 IsHoldingObject = false;
 }
 
 
@@ -160,3 +162,8 @@ AActor* UChiappaETiraComponent::GetGrabbedObject()
 {
 	return GrabbedObject;
 }	
+
+bool UChiappaETiraComponent::GetIsHoldingObject()
+{
+	return IsHoldingObject;
+}

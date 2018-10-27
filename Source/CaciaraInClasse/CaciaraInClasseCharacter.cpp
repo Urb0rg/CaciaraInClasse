@@ -75,8 +75,8 @@ void ACaciaraInClasseCharacter::SetupPlayerInputComponent(class UInputComponent*
 {
 	// Set up gameplay key bindings
 	check(PlayerInputComponent);
-	PlayerInputComponent->BindAction("PickUp", IE_Pressed, this, &ACaciaraInClasseCharacter::PickUp);
-	PlayerInputComponent->BindAction("Throw", IE_Pressed, this, &ACaciaraInClasseCharacter::Throw);
+	
+	
 	PlayerInputComponent->BindAxis("MoveForward", this, &ACaciaraInClasseCharacter::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &ACaciaraInClasseCharacter::MoveRight);
 

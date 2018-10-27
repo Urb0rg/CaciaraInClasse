@@ -35,7 +35,7 @@ protected:
 public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-	
+	bool GetIsHoldingObject();
 private:
 	FVector GetAttachLocation();
 	
@@ -49,5 +49,5 @@ private:
 	float PickUpAnimCooldown = .2;
 	float PickUpCooldown = .8;
 	UAttachMesh* Attach = nullptr;
-
+	bool IsHoldingObject = false;
 };
