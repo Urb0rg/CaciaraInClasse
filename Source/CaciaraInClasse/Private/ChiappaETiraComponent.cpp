@@ -35,10 +35,7 @@ void UChiappaETiraComponent::BeginPlay()
 void UChiappaETiraComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-	if (IsPickingUp)
-	{
-	if ((GetWorld()->GetTimeSeconds() - PickUpAnimTime) >= PickUpAnimCooldown) { IsPickingUp = false; }
-	}
+	
 
 	if (PhysicsHandle->GrabbedComponent)
 	{
@@ -88,6 +85,7 @@ FHitResult UChiappaETiraComponent::LookForActorsInRange()//TODO make sweep multy
 
 void UChiappaETiraComponent::PickUp()
 {
+	//sets cooldown to pick up
 	if ((GetWorld()->GetTimeSeconds() - PickUpTime ) <= (PickUpCooldown))
 	{ 
 		auto Gtimeleft = (GetWorld()->GetTimeSeconds() - PickUpTime);
@@ -108,7 +106,6 @@ void UChiappaETiraComponent::PickUp()
 
 	if (Actor)
 	{
-			IsPickingUp = true;//sta raccogliendo (animazione)
 			PhysicsHandle->GrabComponent
 			(
 				HitRoot,
@@ -119,7 +116,7 @@ void UChiappaETiraComponent::PickUp()
 
 			IsHoldingObject = true;
 			
-			PickUpTime, PickUpAnimTime = GetWorld()->GetTimeSeconds();
+			PickUpTime = GetWorld()->GetTimeSeconds();//variable fo pickup cooldown
 			GrabbedObject = PhysicsHandle->GetGrabbedComponent()->GetOwner();
 			auto OP = Cast<AOggettoPrendibile>(GrabbedObject);
 			OP->IsTaken = true;//variable to see if the objectis taken so other AI retarget toanothe object

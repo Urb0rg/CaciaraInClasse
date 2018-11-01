@@ -18,9 +18,6 @@ class CACIARAINCLASSE_API UChiappaETiraComponent : public UActorComponent
 public:
 	// Sets default values for this component's properties
 	UChiappaETiraComponent();
-
-	UPROPERTY(BlueprintReadOnly)
-	bool IsPickingUp = false;
 	
 	
 	AActor* GetGrabbedObject();
@@ -46,7 +43,6 @@ private:
 	UPhysicsHandleComponent* PhysicsHandle = nullptr;
 	float PickUpAnimTime = 0.f;
 	float PickUpTime = 0.f;
-	float PickUpAnimCooldown = .2;
 	float PickUpCooldown = .8;
 	UAttachMesh* Attach = nullptr;
 	bool IsHoldingObject = false;
