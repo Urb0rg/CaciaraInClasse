@@ -136,8 +136,8 @@ void UChiappaETiraComponent::Throw(float ForceApplied)
 	 FVector ForceToApply = (GetOwner()->GetActorForwardVector()*ForceApplied);
 
 	 auto OP = Cast<AOggettoPrendibile>(GrabbedObject);
-	 OP->SetActorEnableCollision(true);//Set back collision to hit
 	 OP->IsTaken = false;
+	
 
 	 AttachedComponent->AddForceAtLocation(ForceToApply, ForceLocation);
 	 PhysicsHandle->ReleaseComponent();

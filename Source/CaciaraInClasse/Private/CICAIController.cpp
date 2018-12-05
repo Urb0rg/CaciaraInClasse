@@ -20,9 +20,9 @@ FHitResult ACICAIController::LookForActorsInRange()
 {
 	// create tarray for hit results
 	TArray<FHitResult> Hit;
-	 UE_LOG(LogTemp, Warning, TEXT("LFAIR")) 
-	// start and end locations
-		 if (!GetPawn()) { UE_LOG(LogTemp, Warning, TEXT("no pawn possessed by AIController")) return Hit[0]; }
+	UE_LOG(LogTemp, Warning, TEXT("LFAIR"))
+		// start and end locations
+		if (!GetPawn()) { UE_LOG(LogTemp, Warning, TEXT("no pawn possessed by AIController")) return Hit[0]; }
 	FVector SweepStart = GetPawn()->GetActorLocation();
 	FVector SweepEnd = GetPawn()->GetActorLocation();
 
@@ -46,13 +46,12 @@ FHitResult ACICAIController::LookForActorsInRange()
 		SweepParameters
 	);
 
-	
 	return GetRandomActorInRange(Hit);
 }
 
 
 
-AActor* ACICAIController::GetActorToPick()//TODO make a sweep multy y object type and select a random object to pick
+AActor* ACICAIController::GetActorToPick()//TODO make a sweep multy by object type and select a random object to pick
 {
 	auto Hit = LookForActorsInRange();
 	auto Actor = Hit.GetActor();
@@ -82,15 +81,10 @@ AActor* ACICAIController::GetGrabbedObject()
 	return Chiappa->GetGrabbedObject();
 }
 
-FHitResult ACICAIController::GetRandomActorInRange(TArray<FHitResult> HitArray)
+FHitResult ACICAIController::GetRandomActorInRange(TArray<FHitResult> HitArray)//CRRASH if array length < 1
 {
 	int32 ArrayLength = HitArray.Num();
-	int32 RandIndex = FMath::RandRange( 0, ArrayLength - 1);
-	 UE_LOG(LogTemp, Warning, TEXT("random = %d"), RandIndex) 
+	int32 RandIndex = FMath::RandRange(0, ArrayLength - 1);
 	FHitResult RandomActorInRange = HitArray[RandIndex];
-	 if (ArrayLength > 1) {
-		 return RandomActorInRange;
-	 }
-	 else { UE_LOG(LogTemp, Warning, TEXT(" no actors to pick")) return RandomActorInRange;
-	 }
+	return RandomActorInRange; 
 }
