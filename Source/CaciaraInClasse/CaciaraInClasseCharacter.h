@@ -86,9 +86,13 @@ private:
 
 	UFUNCTION(BlueprintCallable)
 		void SetChiappaETira(UChiappaETiraComponent* ChiappaETiraToSet);
-	
-	
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
 		float ThrowSpeed = 10000.f;
+	UFUNCTION(BlueprintCallable)
+		int32 GetScore();
+	UFUNCTION(BlueprintCallable)
+	void SetScore(int32 PointsToAdd);
+
+	int32 Score = 0;
 };
 

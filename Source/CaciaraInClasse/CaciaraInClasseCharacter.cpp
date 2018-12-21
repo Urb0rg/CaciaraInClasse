@@ -174,3 +174,12 @@ void ACaciaraInClasseCharacter::SetChiappaETira(UChiappaETiraComponent* ChiappaE
 		if (!ChiappaETira) { UE_LOG(LogTemp, Warning, TEXT("no chiappaetiracomponent")) return; }
 		ChiappaETira->Throw(ThrowSpeed);
 	}
+	void ACaciaraInClasseCharacter::SetScore(int32 PointsToAdd)
+	{
+		Score = Score + PointsToAdd;
+	}
+
+	int32 ACaciaraInClasseCharacter::GetScore()
+	{
+		return Score;
+	}

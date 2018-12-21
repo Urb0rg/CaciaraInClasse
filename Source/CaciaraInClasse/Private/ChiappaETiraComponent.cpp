@@ -106,13 +106,13 @@ void UChiappaETiraComponent::PickUp()
 
 	if (Actor)
 	{
-			PhysicsHandle->GrabComponent
-			(
-				HitRoot,
-				NAME_None, //
-				Actor->GetActorLocation(),
-				true //Allow rotation
-			);
+		
+		PhysicsHandle->GrabComponentAtLocation
+		(
+			HitRoot,
+			NAME_None, //
+			Actor->GetActorLocation()
+		);
 
 			IsHoldingObject = true;
 			
@@ -126,7 +126,7 @@ void UChiappaETiraComponent::PickUp()
 
 }
 
-void UChiappaETiraComponent::Throw(float ForceApplied)
+void UChiappaETiraComponent::Throw(float ForceApplied)//TODO fix player Throw (it just drops the object)
 {
 		 //if (!PhysicsHandle) { UE_LOG(LogTemp, Warning, TEXT("no physicshandle")) return; }
 	 if (!PhysicsHandle->GetGrabbedComponent()) { UE_LOG(LogTemp, Warning, TEXT("no attached component to throw")) return; }
@@ -137,11 +137,13 @@ void UChiappaETiraComponent::Throw(float ForceApplied)
 
 	 auto OP = Cast<AOggettoPrendibile>(GrabbedObject);
 	 OP->IsTaken = false;
-	
+	 
 
 	 AttachedComponent->AddForceAtLocation(ForceToApply, ForceLocation);
 	 PhysicsHandle->ReleaseComponent();
 	 IsHoldingObject = false;
+	 OP->SetActorEnableCollision(true);//Sets collision back after launch to hit
+
 }
 
 

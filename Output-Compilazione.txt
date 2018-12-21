@@ -1,0 +1,5 @@
+﻿1>------ Inizio ricompilazione: Progetto: UE4, Configurazione: BuiltWithUnrealBuildTool Win32 ------
+2>------ Ricompilazione ignorata: Progetto: CaciaraInClasse, Configurazione: HTML5_DebugGame_Editor Win32 ------
+2>Progetto non selezionato da compilare per la configurazione della soluzione. 
+1>C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCTargets\Microsoft.Cpp.props(31,3): warning MSB4011: non è possibile importare di nuovo "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCTargets\Microsoft.Makefile.props". L'importazione è già stata eseguita in "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.cpp.props (31,3)". Si tratta probabilmente di un errore di creazione della compilazione. Questa importazione successiva verrà ignorata. [C:\Users\Asus\Desktop\unreal cose\CaciaraInClasse\Intermediate\ProjectFiles\UE4.vcxproj]
+========== Ricompilazione: 1 completate, 0 non riuscite, 1 ignorate ==========
