@@ -19,7 +19,7 @@ public:
 	// Sets default values for this component's properties
 	UChiappaETiraComponent();
 	
-	
+	UFUNCTION(BlueprintCallable)
 	AActor* GetGrabbedObject();
 
 	void PickUp();
@@ -32,6 +32,8 @@ protected:
 public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+
+	UFUNCTION(BlueprintCallable)
 	bool GetIsHoldingObject();
 private:
 	FVector GetAttachLocation();

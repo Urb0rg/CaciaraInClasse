@@ -5,6 +5,7 @@
 #include "Runtime/Engine/Classes/GameFramework/Actor.h"
 #include "Runtime/Engine/Classes/Engine/World.h"
 #include "ChiappaETiraComponent.h"
+#include "CaciaraInClasseCharacter.h"
 #include "Runtime/Engine/Public/DrawDebugHelpers.h"
 
 
@@ -69,9 +70,14 @@ void ACICAIController::PickUp()
 
 void ACICAIController::Throw()
 {
-	if (!Chiappa) { UE_LOG(LogTemp, Warning, TEXT("no chiappa su ai controller ehile throwing object"))  return; }
+	if (!Chiappa) { UE_LOG(LogTemp, Warning, TEXT("no chiappa on ai controller while throwing object"))  return; }
 
-	Chiappa->Throw(ThrowSpeed);
+	auto Char = Cast<ACaciaraInClasseCharacter>(GetPawn());
+
+	if (Char)
+	{ Char->Throw(); }
+	else { UE_LOG(LogTemp, Warning, TEXT("Caciara iun classe character cast failed")) }
+	
 	Grabbing = false;
 }
 

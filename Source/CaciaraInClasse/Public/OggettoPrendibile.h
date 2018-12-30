@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+
 #include "OggettoPrendibile.generated.h"
 
 UCLASS()
@@ -14,8 +15,11 @@ class CACIARAINCLASSE_API AOggettoPrendibile : public AActor
 public:	
 	// Sets default values for this actor's properties
 	AOggettoPrendibile();
+
+
 	UPROPERTY(BlueprintReadOnly)
 	bool IsTaken = false;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -23,7 +27,11 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+	UPROPERTY(BlueprintReadOnly)
+	class ACaciaraInClasseCharacter* Character;
+
 private:
-	
+
 	
 };
